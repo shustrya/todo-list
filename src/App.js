@@ -1,7 +1,13 @@
+import Banner from "./components/banner/Banner";
+import Footer from "./components/footer/Footer";
+import Header from "./components/header/Header";
+
 function App() {
   return (
     <div>
-      <h1>Welcome</h1>
+      <Header/>
+      <Banner/>
+      <Footer/>
     </div>
   );
 }
