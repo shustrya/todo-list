@@ -3,7 +3,7 @@ import styleMenu from './menu.module.css';
 export default function Menu() {
   return  (
     <nav>
-      <ul>
+      <ul className={styleMenu.menu}>
         <li>
           home
         </li>
