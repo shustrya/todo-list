@@ -1,4 +1,4 @@
-export const Jobs = [
+export const Tasks = [
   { id: 6, created_at: '2025-01-25', finish_by: '2025-11-21', marks: ['m1', 'm2'], description: 'Full description', users: [1,3,5], finished: false },
   { id: 2, created_at: '2025-01-25', finish_by: '2025-05-01', marks: ['m1', 'm2'], description: 'Full description', users: [1,3,5], finished: false },
   { id: 3, created_at: '2025-01-25', finish_by: '2025-04-01', marks: ['m1', 'm2'], description: 'Full description', users: [1,3,5], finished: false },

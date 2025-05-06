@@ -1,14 +1,14 @@
 import Banner from "./components/banner/Banner";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
-import JobsList from "./components/jobs/list/Jobslist";
+import TasksList from "./components/tasks/list/TasksList";
 
 function App() {
   return (
     <div>
       <Header/>
       <Banner/>
-      <JobsList/>
+      <TasksList/>
       <Footer/>
     </div>
   );
