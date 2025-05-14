@@ -4,7 +4,7 @@ import taskStyle  from './task.module.css';
 export default function Task({taskData, children}) {
   const [isDescription, setIsDescription] = useState(false);
 
-  const marks = taskData.marks.map(m => <div>{m}</div>);
+  const marks = taskData.marks.map((m,i) => <div key={i}>{m}</div>);
 
   function handleTaskClick() {
     setIsDescription(!isDescription);
