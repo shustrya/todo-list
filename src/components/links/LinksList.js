@@ -23,7 +23,7 @@ function Link({text, filePath}){
 export default function LinksList(){
     return (
         <ul>
-            {data.map(elem => <Link text={elem.text} filePath={elem.path}/>)}
+            {data.map((elem,idx) => <Link key={idx} text={elem.text} filePath={elem.path}/>)}
         </ul>
     )
 }

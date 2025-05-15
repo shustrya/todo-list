@@ -4,6 +4,7 @@ import InfoBlock from "./components/info-block/InfoBlock";
 import InfoList from "./components/cards/list/InfoList";
 import MoreButton from "./components/buttons/more/MoreButton";
 import LinksList from "./components/links/LinksList";
+import { useState } from "react";
 
 const services = [
     {type: "услуги", description: "H.Lorem ipsum dolor sit amet."},
@@ -47,22 +48,42 @@ const grid = {
 
 function App() {
 
+    const [dataAsc , setDataAsc] = useState(services);
+    const [ ascdesc, setAscdesc] = useState('asc');
+
+    function handleSwitchAsc() {
+
+        const serviceAsc = structuredClone(dataAsc);
+
+        if(ascdesc === 'asc') {
+            serviceAsc.sort((a,b) => a.description.localeCompare(b.description));
+            setAscdesc('desc');
+            
+        } else {
+            serviceAsc.sort((a,b) => b.description.localeCompare(a.description));
+            setAscdesc('asc');
+        }
+
+        setDataAsc(serviceAsc);
+    }
+
     return (
         <div>
             <Section gridStyle={grid}>
                 <InfoBlock title={bannerSection.title}
                            content={bannerSection.content}>
-                    <MoreButton text="О компании"/>
+                    <MoreButton label="О компании" text="(->)"/>
                 </InfoBlock>
                 <InfoList data={services.slice(0, 4)} gridStyle={grid}/>
             </Section>
             <hr/>
             <Section gridStyle={grid}>
+                <MoreButton onLeftClick={handleSwitchAsc} label="Упорядочить:" text={ascdesc}/>
                 <InfoBlock title={mainContentSection.title}
                            content={mainContentSection.content}>
                     <LinksList/>
                 </InfoBlock>
-                <InfoList data={services} gridStyle={grid}/>
+                <InfoList data={dataAsc} gridStyle={grid}/>
             </Section>
         </div>
     );

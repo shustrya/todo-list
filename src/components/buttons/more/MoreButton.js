@@ -1,7 +1,7 @@
-export default function MoreButton({text}) {
+export default function MoreButton({label,text, onLeftClick}) {
     return (
         <div>
-            <span>{text}</span>
-            <button>(->)</button>
+            <span>{label}&nbsp;</span>
+            <button onClick={onLeftClick}>{text}</button>
         </div>);
 }
