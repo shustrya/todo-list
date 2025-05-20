@@ -4,6 +4,14 @@
   gap: .6rem;
 }
 
+.table {
+  border-spacing: 0.5rem;
+}
+
+.table > thead > tr > th {
+  text-align: start;
+}
+
 .filters {
   padding: 1rem 0;
   display: flex;

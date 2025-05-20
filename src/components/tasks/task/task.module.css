@@ -1,8 +1,6 @@
 .container {
   border-radius: 0.3rem;
   border: 1px solid black;
-  cursor: pointer;
-  user-select: none;
 }
 .marks {
   display: flex;

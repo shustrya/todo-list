@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import taskStyle  from './task.module.css';
+import Description from '../description/Description';
 
-export default function Task({taskData, children}) {
+export default function Task({taskData, onFinish, children}) {
   const [isDescription, setIsDescription] = useState(false);
+  const [isUsers, setIsUsers] = useState(false);
 
   const marks = taskData.marks.map((m,i) => <div key={i}>{m}</div>);
 
@@ -10,22 +12,27 @@ export default function Task({taskData, children}) {
     setIsDescription(!isDescription);
   }
 
+  function handleUsersClick() {
+    setIsUsers(!isUsers);
+  }
+
+  function handleFinishClick(id) {
+    onFinish(id);
+  }
+
   return (
-    <div className={taskStyle.container}>
-      <div
-        key={taskData.id}
-        style={{
-          display: "flex",
-          padding: "1rem",
-          gap: "2rem"
-        }}
-        onClick={handleTaskClick}
-      >
-        <div>{taskData.n}</div>
-        <div>{taskData.finish_by}</div>
-        <div className={taskStyle.marks}>{marks}</div>
-      </div>
-      { isDescription ? children : null }
-    </div>
+    <>
+      <tr>
+          <td>{taskData.id}</td>
+          <td>{taskData.finish_by}</td>
+          <td className={taskStyle.marks}>{marks}</td>
+          <td><button onClick={handleTaskClick}>показать</button></td>
+          <td><button onClick={handleUsersClick}>Участники</button></td>
+          <td>{ taskData.finished ? <span>завершена</span> : <button onClick={() => handleFinishClick(taskData.id)}>завершить</button> }
+          </td>
+      </tr>
+      { isDescription ? <Description description={taskData.description}/> : null }
+      { isUsers ? children : null }
+    </>
   );
 }
