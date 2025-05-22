@@ -24,11 +24,11 @@ export default function Task({taskData, onFinish, children}) {
     <>
       <tr>
           <td>{taskData.id}</td>
-          <td>{taskData.finish_by}</td>
+          <td>{taskData.created_at}</td>
           <td className={taskStyle.marks}>{marks}</td>
           <td><button onClick={handleTaskClick}>показать</button></td>
           <td><button onClick={handleUsersClick}>Участники</button></td>
-          <td>{ taskData.finished ? <span>завершена</span> : <button onClick={() => handleFinishClick(taskData.id)}>завершить</button> }
+          <td>{ taskData.finish_by ? <span>завершена</span> : <button onClick={() => handleFinishClick(taskData.id)}>завершить</button> }
           </td>
       </tr>
       { isDescription ? <Description description={taskData.description}/> : null }
