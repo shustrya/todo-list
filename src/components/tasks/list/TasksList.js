@@ -99,7 +99,7 @@ export default function TasksList() {
         }
         return item;
       });
-  }
+    }
   }
 
   function handleChangeSort(event) {
