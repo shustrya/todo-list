@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import carouselStyle from './carousel.module.css';
 
 export default function Carousel ({ images, index }) {
-  const [currentIndex, setCurrentIndex] = useState(index);
+  const [currentIndex, setCurrentIndex] = useState(Number(index));
   const carouselRef = useRef(null);
 
   function goToPrevious() {
@@ -20,10 +20,6 @@ export default function Carousel ({ images, index }) {
       setCurrentIndex(0);
     }
   };
-
-  useEffect(() => {
-    //setInterval(goToNext, 3000);
-  });
 
   useEffect(() => {
     if (!carouselRef.current) return;
