@@ -1,0 +1,19 @@
+.link {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 0 1rem;
+  text-decoration: none;
+  border-right: 1px solid gray;
+  color: #000;
+}
+.active {
+  color: #333;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.pending {
+  transition: background-color 2.5s;
+  transition-delay: 100ms;
+}
