@@ -1,0 +1,34 @@
+.container {
+    display: flex;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    gap: 2rem;
+}
+
+.opened {
+    text-align: center;
+}
+
+.bignumber {
+    font-size: 3rem;
+}
+
+.onfire {
+    text-align: center;
+}
+
+.list {
+    margin-top: .4rem;
+    font-weight: 600;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    align-items: center;
+}

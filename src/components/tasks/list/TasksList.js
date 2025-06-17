@@ -1,4 +1,3 @@
-import { Tasks } from '../../../tasks';
 import Task from '../task/Task';
 import tasksStyle from './taskslist.module.css';
 import { useReducer } from 'react';
@@ -6,21 +5,61 @@ import Edit from '../edit/Edit';
 
 const Filters = { marks: '', sort: 'finish_by' };
 
-export default function TasksList() {
-  const [ tasksInit, tasksDispatch ] = useReducer(handleTasks, Tasks);
+export default function TasksList({tasks, params}) {
+  const [ tasksInit, tasksDispatch ] = useReducer(handleTasks, tasks);
   const [ filtersInit, filtersDispatch ] = useReducer(handleFilters, Filters);
-
+  
   const selectOptions = [
     { name: 'finish_by', title: 'Дата завершение'},
     { name: 'created_at', title: 'Дата создания'},
     { name: 'users', title: 'Количество участников'}
   ];
 
-  const tasks = tasksInit
+  const currentPath = params?.path;
+
+  const filteredTasks = tasksInit
+                        .filter( path => {
+                          if(currentPath) {
+                            const opened = !!path.finish_by;
+
+                            switch (currentPath) {
+                              case 'opened': {
+                                return !opened;
+                              }
+                              case 'finished':
+                                return opened;
+                              default:
+                                break;
+                            }
+                          }
+
+                          return true;
+                        })
+                        .filter( opt => {
+                          if(currentPath === 'opened') {
+                            const option = params?.opt;
+
+                            if(option) {
+                              const cerrent = new Date(opt.deadline) < new Date();
+
+                              switch (option) {
+                                case 'expired':
+                                  return cerrent;
+                                case 'active':
+                                  return !cerrent;
+                                default:
+                                  break;
+                              }
+                            }
+                          }
+
+                          return true;
+                        })
                         .filter( mark => {
                           if( !!filtersInit.marks ) {
                             return mark.marks.some( x => x.includes(filtersInit.marks));
                           }
+
                           return true;
                         })
                         .sort((a,b) =>  {
@@ -53,17 +92,19 @@ export default function TasksList() {
   }
 
   function handleTasks(state, action) {
-    if(action.type === "add") {
-      return [
-        ...state,
-{        id: Math.random() * 10000,
-        created_at: new Date().toISOString(),
-        finish_by: null,
-        marks: ["new"],
-        description: "new task",
-        users: []}
-    ];
-    }
+    // if(action.type === "add") {
+    //   return [
+    //     ...state,
+    //     {
+    //       id: Math.random() * 10000,
+    //       created_at: new Date().toISOString(),
+    //       finish_by: null,
+    //       marks: ["new"],
+    //       description: "new task",
+    //       users: []
+    //     }
+    //   ];
+    // }
 
     if (action.type === "update") {
       return state.map((cat) => {
@@ -143,11 +184,11 @@ export default function TasksList() {
     });
   }
 
-  function handleAdd() {
-    tasksDispatch({
-      type: "add"
-    });
-  }
+  // function handleAdd() {
+  //   tasksDispatch({
+  //     type: "add"
+  //   });
+  // }
 
   return (
       <div className={tasksStyle.container}>
@@ -157,12 +198,13 @@ export default function TasksList() {
           <select value={filtersInit.sort} onChange={handleChangeSort}>
             { selectOptions.map( (item, idx) => (<option key={idx} value={item.name}>{item.title}</option>)) }
           </select>
-          <button onClick={handleAdd}>Add New</button>
+          {/* <button onClick={handleAdd}>Add New</button> */}
         </div>
         <table className={tasksStyle.table}>
           <thead>
             <tr>
               <th>ID</th>
+              <th>Название</th>
               <th>Время начала</th>
               <th>Метки</th>
               <th>Описание</th>
@@ -171,7 +213,7 @@ export default function TasksList() {
             </tr>
           </thead>
           <tbody>
-            {tasks}
+            {filteredTasks}
           </tbody>
         </table>
       </div>

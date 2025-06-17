@@ -24,6 +24,7 @@ export default function Task({taskData, onFinish, children}) {
     <>
       <tr>
           <td>{taskData.id}</td>
+          <td>{taskData.title}</td>
           <td>{taskData.created_at}</td>
           <td className={taskStyle.marks}>{marks}</td>
           <td><button onClick={handleTaskClick}>показать</button></td>
