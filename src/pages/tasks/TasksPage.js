@@ -7,7 +7,7 @@ export async function tasksLoader() {
     const tasks = await new Promise((res) => {
         res(Tasks);
     });
-  
+
     return tasks;
 }
 
@@ -49,7 +49,7 @@ export default function TasksPage() {
                     </nav>
 
             </div>
-            <TasksList tasks={tasks} params={params}/>
+            <TasksList props={params}/>
         </div>
     );
 }

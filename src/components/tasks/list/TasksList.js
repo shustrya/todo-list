@@ -2,11 +2,12 @@ import Task from '../task/Task';
 import tasksStyle from './taskslist.module.css';
 import { useReducer } from 'react';
 import Edit from '../edit/Edit';
+import { useSelector } from 'react-redux';
+import { allTasks } from '../../../state/taskSlice';
 
 const Filters = { marks: '', sort: 'finish_by' };
 
-export default function TasksList({tasks, params}) {
-  const [ tasksInit, tasksDispatch ] = useReducer(handleTasks, tasks);
+export default function TasksList({props}) {
   const [ filtersInit, filtersDispatch ] = useReducer(handleFilters, Filters);
   
   const selectOptions = [
@@ -15,61 +16,16 @@ export default function TasksList({tasks, params}) {
     { name: 'users', title: 'Количество участников'}
   ];
 
-  const currentPath = params?.path;
+  const currentPath = props?.path;
+  const opt = props?.opt;
+  const params = {
+    currentPath,
+    opt
+  };
 
-  const filteredTasks = tasksInit
-                        .filter( path => {
-                          if(currentPath) {
-                            const opened = !!path.finish_by;
-
-                            switch (currentPath) {
-                              case 'opened': {
-                                return !opened;
-                              }
-                              case 'finished':
-                                return opened;
-                              default:
-                                break;
-                            }
-                          }
-
-                          return true;
-                        })
-                        .filter( opt => {
-                          if(currentPath === 'opened') {
-                            const option = params?.opt;
-
-                            if(option) {
-                              const cerrent = new Date(opt.deadline) < new Date();
-
-                              switch (option) {
-                                case 'expired':
-                                  return cerrent;
-                                case 'active':
-                                  return !cerrent;
-                                default:
-                                  break;
-                              }
-                            }
-                          }
-
-                          return true;
-                        })
-                        .filter( mark => {
-                          if( !!filtersInit.marks ) {
-                            return mark.marks.some( x => x.includes(filtersInit.marks));
-                          }
-
-                          return true;
-                        })
-                        .sort((a,b) =>  {
-                            if(filtersInit.sort === 'users') {
-                              return b.users.length - a.users.length;
-                            }
-                            return new Date(a[filtersInit.sort]) - new Date(b[filtersInit.sort]);
-                        })
-                        .map((y,idx)=> ({...y, n:idx+1}))
-                        .map(x => {
+  const tasksInit = useSelector((state) => allTasks(state, params, filtersInit));
+  
+  const filteredTasks = tasksInit.map(x => {
                           return (<Task key={x.id} taskData={x} onFinish={() => handleFinished(x.id)}>
                             <Edit users={x.users} onDelete={(name) => handleDelUsers(name, x.id)} onEdit={(name) => handleAddUsers(name, x.id)}/>
                           </Task>);
@@ -162,26 +118,26 @@ export default function TasksList({tasks, params}) {
   }
 
   function handleFinished(id) {
-    tasksDispatch({
-      type: "finish",
-      id
-    });
+    // tasksDispatch({
+    //   type: "finish",
+    //   id
+    // });
   }
 
   function handleAddUsers(name, id) {
-    tasksDispatch({
-      type: "useradd",
-      name,
-      id
-    });
+    // tasksDispatch({
+    //   type: "useradd",
+    //   name,
+    //   id
+    // });
   }
 
   function handleDelUsers(name, id) {
-    tasksDispatch({
-      type: "userdel",
-      name,
-      id
-    });
+    // tasksDispatch({
+    //   type: "userdel",
+    //   name,
+    //   id
+    // });
   }
 
   // function handleAdd() {
